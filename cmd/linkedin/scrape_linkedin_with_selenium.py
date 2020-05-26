@@ -23,3 +23,5 @@ url_vars = {
 jobs_url = get_url(url_base, url_vars)
 driver.get(jobs_url)
 time.sleep(1.1231)
+
+# driver.quit()
