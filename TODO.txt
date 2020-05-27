@@ -1,0 +1,4 @@
+- rethink how to separate folders in build
+- try beautifulsoup/scrapy
+- parametrize/environment variables into local/dev/qa/... (like search keywords, chromedriver location, etc.)
+- reduce disk space of Docker image
