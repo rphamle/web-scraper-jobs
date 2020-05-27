@@ -2,3 +2,7 @@
 - try beautifulsoup/scrapy
 - parametrize/environment variables into local/dev/qa/... (like search keywords, chromedriver location, etc.)
 - reduce disk space of Docker image
+- set up kafka/rabbitmq
+- set up database(s)
+- set up airflow(?)
+- genericize Docker build process for different scrapers
