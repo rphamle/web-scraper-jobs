@@ -19,10 +19,22 @@ RUN wget -q "https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriv
     && rm /tmp/chromedriver.zip
 
 # xvfb - X server display
-ADD xvfb-chromium /usr/bin/xvfb-chromium
+ADD build/xvfb-chromium /usr/bin/xvfb-chromium
 RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
     && chmod 777 /usr/bin/xvfb-chromium
 
 # create symlinks to chromedriver and geckodriver (to the PATH)
 RUN ln /usr/bin/chromium \
     && chmod 777 /usr/bin/chromium
+
+# create project folder and set as workspace
+RUN mkdir /app
+WORKDIR /app
+
+# install python package requirements
+COPY build/requirements.txt .
+RUN pip install -r requirements.txt
+
+# Copy scraper script
+COPY cmd/linkedin/scrape.py /app
+# ENTRYPOINT ["python", "/app/scrape.py"]
