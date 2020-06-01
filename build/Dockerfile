@@ -27,14 +27,10 @@ RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
 RUN ln /usr/bin/chromium \
     && chmod 777 /usr/bin/chromium
 
-# create project folder and set as workspace
-RUN mkdir /app
-WORKDIR /app
-
 # install python package requirements
 COPY build/requirements.txt .
 RUN pip install -r requirements.txt
 
-# Copy scraper script
-COPY cmd/linkedin/scrape.py /app
-# ENTRYPOINT ["python", "/app/scrape.py"]
+# create project folder and set as workspace
+RUN mkdir /app
+WORKDIR /app
