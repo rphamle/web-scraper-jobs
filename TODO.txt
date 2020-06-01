@@ -6,3 +6,5 @@
 - set up database(s)
 - set up airflow(?)
 - genericize Docker build process for different scrapers
+- handle multiple worker deploy
+- push base worker image to Dockerhub
