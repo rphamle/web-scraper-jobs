@@ -19,7 +19,7 @@ RUN wget -q "https://chromedriver.storage.googleapis.com/73.0.3683.68/chromedriv
     && rm /tmp/chromedriver.zip
 
 # xvfb - X server display
-ADD build/xvfb-chromium /usr/bin/xvfb-chromium
+ADD build/worker-base/xvfb-chromium /usr/bin/xvfb-chromium
 RUN ln -s /usr/bin/xvfb-chromium /usr/bin/google-chrome \
     && chmod 777 /usr/bin/xvfb-chromium
 
@@ -28,7 +28,7 @@ RUN ln /usr/bin/chromium \
     && chmod 777 /usr/bin/chromium
 
 # install python package requirements
-COPY build/requirements.txt .
+COPY build/worker-base/requirements.txt .
 RUN pip install -r requirements.txt
 
 # create project folder and set as workspace
