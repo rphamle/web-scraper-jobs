@@ -3,6 +3,7 @@ from selenium.webdriver.common.keys import Keys
 import time 
 import numpy as np
 import urllib
+from bs4 import BeautifulSoup
 
 search_keywords = 'energy engineer'
 search_location = 'Los Angeles Metropolitan Area'
@@ -41,5 +42,17 @@ url_vars = {
 jobs_url = get_url(url_base, url_vars)
 driver.get(jobs_url)
 time.sleep(1.1231)
+
+# Keep scrolling to the bottom until whole page is rendered
+# Maybe there is a better way of doing this..
+renderWholePage(driver)
+
+# Get the entire html and pass to BeautifulSoup
+html_source = driver.page_source
+soup = BeautifulSoup(html_source,'html.parser')  
+
+# Find each job result
+results = soup.find_all('a', class_ = 'result-card__full-card-link') 
+print(len(results))
 
 # driver.quit()
