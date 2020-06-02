@@ -10,8 +10,11 @@ search_location = 'Los Angeles Metropolitan Area'
 def get_url(url_base, url_vars):
     return url_base + urllib.parse.urlencode(url_vars)
 
-# specifies the path to the chromedriver.exe 
-driver = webdriver.Chrome('/Users/rphamle/Desktop/Software/Chrome Driver/chromedriver') 
+options = webdriver.ChromeOptions()
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--incognito')
+options.add_argument('--headless')
+driver = webdriver.Chrome(executable_path='/Users/rphamle/Desktop/Software/ChromeDriver/chromedriver', options=options) 
 
 # Go directly to job search (no need to sign in)
 url_base = 'https://www.linkedin.com/jobs/search/?'
