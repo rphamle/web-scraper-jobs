@@ -37,7 +37,7 @@ class LinkedinBasePage():
         end = False
         while(end == False):
             previous_len_page = len_page
-            time.sleep(3)
+            time.sleep(np.random.uniform(2,4))
             len_page = self.driver.execute_script(script)
 
             if(previous_len_page == len_page):
@@ -65,7 +65,7 @@ url_vars = {
     'location': search_location,
 }
 main_search_page = LinkedinMainSearchPage.fromArgs(driver, url_base, url_vars)
-time.sleep(1.1231)
+time.sleep(np.random.uniform(2,4))
 
 # Keep scrolling to the bottom until whole page is rendered
 # Maybe there is a better way of doing this..
