@@ -2,6 +2,7 @@ import time
 import numpy as np
 import urllib
 from bs4 import BeautifulSoup
+import json
 
 class LinkedinBasePage():
 
@@ -47,6 +48,12 @@ class LinkedinBasePage():
         else:
             # dict, json, html
             return results
+
+    @staticmethod
+    def writeResultsToFile(result, filename, indent_level):
+        with open(filename, 'w') as f:
+            f.write(json.dumps(result, indent = indent_level))
+            f.close()
 
 class LinkedinMainSearchPage(LinkedinBasePage):
 
