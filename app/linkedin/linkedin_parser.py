@@ -57,19 +57,20 @@ class LinkedinBasePage():
 
 class LinkedinMainSearchPage(LinkedinBasePage):
 
-    def findJobResults(self):
+    def findJobResults(self, return_type):
         soup = self._getSoup(features = 'html.parser')
         results = soup.find_all('a', class_ = 'result-card__full-card-link') 
 
-        return results
+        return self._returnResults(results, return_type)
 
 class LinkedinSearchResult(LinkedinBasePage):
 
-    def findJobResultBody(self):
+    def findJobResultBody(self, return_type):
         soup = self._getSoup(features = 'html.parser')
         results = soup.find_all('div', class_ = 'description__text')
+        results = results[0]
 
-        return results
+        return self._returnResults(results, return_type)
     
     def findJobResultCategories(self):
         soup = self._getSoup(features = 'html.parser')
