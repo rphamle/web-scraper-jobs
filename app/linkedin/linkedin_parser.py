@@ -72,8 +72,28 @@ class LinkedinSearchResult(LinkedinBasePage):
 
         return self._returnResults(results, return_type)
     
-    def findJobResultCategories(self):
+    def findJobResultCategories(self, return_type):
         soup = self._getSoup(features = 'html.parser')
         results = soup.find_all('li', class_ = 'job-criteria__item')
 
-        return results
+        # Should be 4 categories:
+        # Seniority level 
+        # Employment type
+        # Job function
+        # Industries
+        categories = {}
+        for result in results:
+            # Category name
+            category_name = result.find('h3', class_ = 'job-criteria__subheader').text
+
+            # Category value
+            # 'Job Function' and 'Industries' can have multiple
+            if(category_name == 'Job Function' or category_name == 'Industries'):
+                category_values = result.find_all('span', class_ = 'job-criteria__text')
+                categories[category_name] = [category_value.text for category_value in category_values]
+            else:
+                category_value = result.find('span', class_ = 'job-criteria__text')
+                categories[category_name] = category_value.text
+
+        return self._returnResults(categories, return_type)
+
