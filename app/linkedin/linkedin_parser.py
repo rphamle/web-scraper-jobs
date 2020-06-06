@@ -60,7 +60,7 @@ class LinkedinMainSearchPage(LinkedinBasePage):
 
 class LinkedinSearchResult(LinkedinBasePage):
 
-    def findJobResultBody(self, return_type):
+    def findJobResultDescription(self, return_type):
         soup = self._getSoup(features = 'html.parser')
         results = soup.find_all('div', class_ = 'description__text')
         results = results[0]
