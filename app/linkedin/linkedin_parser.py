@@ -38,6 +38,16 @@ class LinkedinBasePage():
             if(previous_len_page == len_page):
                 end = True
 
+    @staticmethod
+    def _returnResults(results, return_type):
+        if(return_type == 'string' or return_type == 'text'):
+            return results.text
+        elif(return_type == 'jsons'):
+            return json.dumps(results)
+        else:
+            # dict, json, html
+            return results
+
 class LinkedinMainSearchPage(LinkedinBasePage):
 
     def findJobResults(self):
