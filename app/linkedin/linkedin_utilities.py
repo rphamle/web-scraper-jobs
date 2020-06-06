@@ -5,3 +5,5 @@ def writeResultToFile(result, filename, indent_level):
         f.write(json.dumps(result, indent = indent_level))
         f.close()
 
+def getResultInJson(**kwargs):
+    return {key:value for key, value in kwargs.items()}
