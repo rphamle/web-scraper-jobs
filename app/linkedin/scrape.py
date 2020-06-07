@@ -24,6 +24,7 @@ url_vars = {
     'f_TP' : last_posted['last 24 hours'],
     'keywords': search_keywords,
     'location': search_location,
+    'distance': 50,     # in miles
 }
 main_search_page = LinkedinMainSearchPage.fromArgs(driver, url_base, url_vars)
 time.sleep(np.random.uniform(2,4))
