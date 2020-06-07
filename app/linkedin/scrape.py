@@ -14,9 +14,14 @@ options.add_argument('--headless')
 driver = webdriver.Chrome(executable_path='/Users/rphamle/Desktop/Software/ChromeDriver/chromedriver', options=options) 
 
 # Go directly to job search (no need to sign in)
+last_posted = {
+    'last 24 hours': '1',
+    'last week': '1%2C2',
+    'last month': '1%2C2%2C3%2C4',
+}
 url_base = 'https://www.linkedin.com/jobs/search/?'
 url_vars = {
-    'f_TPR' : 'r{0}'.format(24 * 60 * 60),  # last posted (in seconds), default: last 24 hours
+    'f_TP' : last_posted['last 24 hours'],
     'keywords': search_keywords,
     'location': search_location,
 }
