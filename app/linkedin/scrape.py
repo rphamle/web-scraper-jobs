@@ -11,11 +11,11 @@ options.add_argument('--incognito')
 options.add_argument('--headless')
 driver = webdriver.Chrome(executable_path='/Users/rphamle/Desktop/Software/ChromeDriver/chromedriver', options=options) 
 
-# Go directly to job search (no need to sign in)
+# "last posted" filter will be percent encoded
 last_posted = {
     'last 24 hours': '1',
-    'last week': '1%2C2',
-    'last month': '1%2C2%2C3%2C4',
+    'last week': '1,2',
+    'last month': '1,2,3,4',
 }
 url_base = 'https://www.linkedin.com/jobs/search/?'
 url_vars = {
@@ -24,6 +24,7 @@ url_vars = {
     'location': search_location,
     'distance': 50,     # in miles
 }
+# Go directly to job search (no need to sign in)
 main_search_page = LinkedinMainSearchPage.fromArgs(driver, url_base, url_vars)
 
 # Keep scrolling to the bottom until whole page is rendered
