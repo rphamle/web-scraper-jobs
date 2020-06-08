@@ -1,27 +1,36 @@
+from linkedin_parser import LinkedinMainSearchPage, LinkedinSearchResult
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
-import time 
-import numpy as np
-import urllib
 
 search_keywords = 'energy engineer'
 search_location = 'Los Angeles Metropolitan Area'
 
-def get_url(url_base, url_vars):
-    return url_base + urllib.parse.urlencode(url_vars)
+options = webdriver.ChromeOptions()
+options.add_argument('--ignore-certificate-errors')
+options.add_argument('--incognito')
+options.add_argument('--headless')
+driver = webdriver.Chrome(executable_path='/Users/rphamle/Desktop/Software/ChromeDriver/chromedriver', options=options) 
 
-# specifies the path to the chromedriver.exe 
-driver = webdriver.Chrome('/Users/rphamle/Desktop/Software/Chrome Driver/chromedriver') 
-
-# Go directly to job search (no need to sign in)
+# "last posted" filter will be percent encoded
+last_posted = {
+    'last 24 hours': '1',
+    'last week': '1,2',
+    'last month': '1,2,3,4',
+}
 url_base = 'https://www.linkedin.com/jobs/search/?'
 url_vars = {
-    'f_TPR' : 'r{0}'.format(24 * 60 * 60),  # last posted (in seconds), default: last 24 hours
+    'f_TP' : last_posted['last 24 hours'],
     'keywords': search_keywords,
     'location': search_location,
+    'distance': 50,     # in miles
 }
-jobs_url = get_url(url_base, url_vars)
-driver.get(jobs_url)
-time.sleep(1.1231)
+# Go directly to job search (no need to sign in)
+main_search_page = LinkedinMainSearchPage.fromArgs(driver, url_base, url_vars)
 
-# driver.quit()
+# Keep scrolling to the bottom until whole page is rendered
+# Maybe there is a better way of doing this..
+main_search_page.scrollWholePage()
+
+# Find each job result
+all_results = main_search_page.findJobResults()
+print(len(all_results))
