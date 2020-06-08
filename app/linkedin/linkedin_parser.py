@@ -25,19 +25,26 @@ class LinkedinBasePage():
         return soup
 
     def scrollWholePage(self):
-        # Get length of current page
-        script = "window.scrollTo(0, document.body.scrollHeight);var len_page=document.body.scrollHeight;return len_page;"
-        len_page = self.driver.execute_script(script)
+        scroll_position = 0
+        while True:
+            # Get the height of the current page
+            script = 'return document.body.scrollHeight'
+            len_current_page = self.driver.execute_script(script)
 
-        # Loop until all pages rendered
-        end = False
-        while(end == False):
-            previous_len_page = len_page
+            # Break if scroll position is at the bottom
+            if(scroll_position == len_current_page):
+                break
+
+            # Scroll down in chunks (relative to each new page size) until end of the current page
+            chunk_size = 4
+            scroll_chunk = (len_current_page - scroll_position)/chunk_size
+            while (scroll_position < len_current_page):
+                script = "window.scrollTo(0, {0});".format(scroll_position + scroll_chunk)
+                self.driver.execute_script(script)
+                scroll_position += scroll_chunk
+                time.sleep(np.random.uniform(0.5,1.5))
+                
             time.sleep(np.random.uniform(2,4))
-            len_page = self.driver.execute_script(script)
-
-            if(previous_len_page == len_page):
-                end = True
 
     @staticmethod
     def _returnResults(results, return_type):
