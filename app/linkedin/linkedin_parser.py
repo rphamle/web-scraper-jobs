@@ -8,14 +8,15 @@ class LinkedinBasePage():
 
     def __init__(self, driver, url):
         self.driver = driver
-        self._goToUrl(url)
+        self._goToUrl(url, 2, 4)
 
     @classmethod
     def fromArgs(cls, driver, url_base, url_vars):
         return cls(driver, url_base + urllib.parse.urlencode(url_vars))
 
-    def _goToUrl(self, url):
+    def _goToUrl(self, url, sleep_low, sleep_high):
         self.driver.get(url)
+        time.sleep(np.random.uniform(sleep_low,sleep_high))
 
     def _getSoup(self, **soup_args):
         # Get the entire html and pass to BeautifulSoup
@@ -40,11 +41,14 @@ class LinkedinBasePage():
             scroll_chunk = (len_current_page - scroll_position)/chunk_size
             while (scroll_position < len_current_page):
                 script = "window.scrollTo(0, {0});".format(scroll_position + scroll_chunk)
-                self.driver.execute_script(script)
+                self._executeScript(script, 0.5, 1.5)
                 scroll_position += scroll_chunk
-                time.sleep(np.random.uniform(0.5,1.5))
                 
             time.sleep(np.random.uniform(2,4))
+
+    def _executeScript(self, script, sleep_low, sleep_high):
+        self.driver.execute_script(script)
+        time.sleep(np.random.uniform(sleep_low, sleep_high))
 
     @staticmethod
     def _returnResults(results, return_type):
