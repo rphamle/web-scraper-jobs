@@ -1,0 +1,24 @@
+1) Run kafka + zookeeper containers by going to /kafka-docker and doing docker-compose up -d 
+    - this will run the two containers (kafka container will point to image "kafka-docker" since that's the parent directory name)
+    - TODO: configure the image name, IP, KAFKA_CREATE_TOPICS, network in docker-compose.yml, multi-broker on single node, general config in docker-compose.yml
+
+2) Run the producer and consumer
+    docker run --rm -d -t --name producer --network kafka-docker_default web-scraper-jobs/worker-base
+    docker run --rm -d -t --name consumer1 --network kafka-docker_default web-scraper-jobs/worker-base
+    docker run --rm -d -t --name consumer2 --network kafka-docker_default web-scraper-jobs/worker-base
+
+
+    Copy the scripts into their respective containers
+    docker cp kafka-producer.py producer:/app/
+    docker cp kafka-consumer.py consumer1:/app/
+    docker cp kafka-consumer.py consumer2:/app/
+
+    Teardown
+    docker container stop consumer1
+    docker container stop consumer2
+    docker container stop producer
+    docker-compose down
+    docker volume prune
+
+3) Spin up airflow container with examples
+    docker run --rm -p 8080:8080 -e LOAD_EX=y --name airflow puckel/docker-airflow
